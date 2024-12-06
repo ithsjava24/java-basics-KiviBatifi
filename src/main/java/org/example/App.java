@@ -15,7 +15,7 @@ public class App {
             System.out.println("Elpriser");
             System.out.println("========");
             System.out.println("1. Inmatning");
-            System.out.println("2. Min, Max och Medel");
+            System.out.println("2. Lägsta, Högsta och Medel");
             System.out.println("3. Sortera");
             System.out.println("4. Bästa Laddningstid (4h)");
             System.out.println("5. Visualisering");
@@ -73,9 +73,9 @@ public class App {
         int minIndex = priser.indexOf(min);
         int maxIndex = priser.indexOf(max);
 
-        System.out.println("Min: " + min + " öre (timme " + minIndex + "-" + (minIndex + 1) + ")");
-        System.out.println("Max: " + max + " öre (timme " + maxIndex + "-" + (maxIndex + 1) + ")");
-        System.out.println("Medel: " + medel + " öre");
+        System.out.println("Lägsta pris: " + String.format("%02d:%02d", minIndex, 3) + " - " + min + " öre/kWh");
+        System.out.println("Högsta pris: " + String.format("%02d:%02d", maxIndex, 1) + " - " + max + " öre/kWh");
+        System.out.println("Medelpris: " + String.format("%.2f", medel) + " öre/kWh");
     }
 
     private static void sortera() {
@@ -118,13 +118,6 @@ public class App {
     }
 
     private static void visualisering() {
-//        ArrayList<Integer> priser = new ArrayList<>();
-//
-//        // Populate the ArrayList with numbers from 2 to 25
-//        for (int i = 1; i <= 24; i++) {
-//            priser.add(i);
-//        }
-
         if (priser.isEmpty()) {
             System.out.println("Inga priser inmatade.");
             return;
@@ -135,44 +128,23 @@ public class App {
         double minPris = Collections.min(priser);
         double skala = width / (maxPris - minPris);
 
+        int antalTimmar = 24;
+        double stepSize = (maxPris - minPris) / antalTimmar;
 
-        // Define the number of Y-axis steps (resolution of Y-axis)
-        int antalTimmar = 24; // Adjust this for more or fewer Y-axis steps
-        double stepSize = (maxPris - minPris) / antalTimmar;  // Calculate step size
-
-        // Print Y-axis from maxPris to minPris
         for (int y = 0; y <= antalTimmar; y++) {
-            // Calculate the current Y-axis level
             double currentLevel = maxPris - y * stepSize;
-
-            // Print Y-axis label (rounded to integer)
             System.out.printf("%2d | ", Math.round(currentLevel));
 
-            // Print histogram for each time step
             for (int i = 0; i < priser.size(); i++) {
                 double pris = priser.get(i);
-
-                // If the price at this time step is close to the current Y-axis level
                 if (pris >= currentLevel) {
-                    System.out.print("X ");  // Plot the price
+                    System.out.print("X ");
                 } else {
-                    System.out.print("  ");  // Empty space
+                    System.out.print("  ");
                 }
             }
-            System.out.println(" ");  // New line after each Y-axis level
+            System.out.println(" ");
         }
-
-
-//        for (int i = 0; i < priser.size(); i++) {
-//            double pris = priser.get(i);
-//            // Antal X behöver rättas.
-//            int antalX = (int) ((pris - minPris) * skala);
-//            System.out.print(String.format("%03d| ", (int) pris));
-//            for (int j = 0; j < antalX; j++) {
-//                System.out.print("x");
-//            }
-//            System.out.println();
-//        }
 
         System.out.print("   |");
         for (int i = 0; i < 76; i++) {
@@ -186,4 +158,3 @@ public class App {
         System.out.println();
     }
 }
-
