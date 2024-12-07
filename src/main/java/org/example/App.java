@@ -73,8 +73,8 @@ public class App {
         int minIndex = priser.indexOf(min);
         int maxIndex = priser.indexOf(max);
 
-        System.out.println("Lägsta pris: " + String.format("%02d-%02d", minIndex, 3) + " - " + min + " öre/kWh");
-        System.out.println("Högsta pris: " + String.format("%02d-%02d", maxIndex, 1) + " - " + max + " öre/kWh");
+        System.out.println("Lägsta pris: " + String.format("%02d-%02d", minIndex, 3) + ", " + min + " öre/kWh");
+        System.out.println("Högsta pris: " + String.format("%02d-%02d", maxIndex, 1) + ", " + max + " öre/kWh");
         System.out.println("Medelpris: " + String.format("%.2f", medel) + " öre/kWh");
     }
 
