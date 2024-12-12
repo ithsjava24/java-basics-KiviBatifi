@@ -1,15 +1,12 @@
 package org.example;
 
-import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Arrays;
-import java.util.Set;
 
 
 public class App {
     private static int[] priser = new int[24];
-    //int[] priser = new int[24];
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.of("SE", "sv"));
@@ -33,7 +30,7 @@ public class App {
 
                 case "2":
                     calcMinMaxAvg(App.priser);
-                    //System.out.println("Min Max Medel\n");
+                    //("Min Max Medel\n");
                     break;
 
                 case "3":
@@ -47,7 +44,7 @@ public class App {
                     break;
 
                 case "5":
-                    //Visualisering();
+                    //Visualisering, jag tog bort med VG uppgiften;
                     System.out.println("Visualisering\n");
                     break;
 
