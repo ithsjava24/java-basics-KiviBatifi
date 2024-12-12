@@ -1,160 +1,189 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.Scanner;
+import java.util.Arrays;
+
+
 
 public class App {
-    private static ArrayList<Double> priser = new ArrayList<>();
+    private static int[] priser = new int[24];
+    //int[] priser = new int[24];
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        char val;
+        Scanner sc = new Scanner(System.in);
 
-        do {
-            System.out.println("Elpriser");
-            System.out.println("========");
-            System.out.println("1. Inmatning");
-            System.out.println("2. Lägsta, Högsta och Medel");
-            System.out.println("3. Sortera");
-            System.out.println("4. Bästa Laddningstid (4h)");
-            System.out.println("5. Visualisering");
-            System.out.println("e. Avsluta");
-            System.out.print("Välj ett alternativ: ");
-            val = scanner.next().charAt(0);
 
-            switch (val) {
-                case '1':
-                    inmatning(scanner);
+        boolean runProgram = true;
+
+        while (runProgram) {
+            displayMenu();
+
+            String userImp = sc.nextLine();
+
+            switch (userImp.toLowerCase()) {
+
+
+                case "1":
+                    inmatning(sc);
+                    System.out.println("Inmatning\n");
                     break;
-                case '2':
-                    minMaxMedel();
+
+                case "2":
+                    calcMinMaxAvg(App.priser);
+                    //System.out.println("Min Max Medel\n");
                     break;
-                case '3':
-                    sortera();
+
+                case "3":
+                    Sortera();
+                    System.out.println("Sortera\n");
                     break;
-                case '4':
-                    bastaLaddningstid();
+
+                case "4":
+                    BestCharge();
+                    System.out.println();
                     break;
-                case '5':
-                    visualisering();
+
+                case "5":
+                    //Visualisering();
+                    System.out.println("Visualisering\n");
                     break;
-                case 'e':
-                case 'E':
-                    System.out.println("Avslutar programmet.");
+
+                case "e":
+                    runProgram = false;
+                    System.out.println("Avsluta\n");
                     break;
+
                 default:
-                    System.out.println("Ogiltigt val, försök igen.");
-            }
-        } while (val != 'e' && val != 'E');
+                    System.out.println("Ogiltig inmatning\n");
+                    break;
 
-        scanner.close();
+            }
+        }
+        sc.close();
     }
 
-    private static void inmatning(Scanner scanner) {
-        priser.clear();
+    private static void displayMenu() {
+        String[] menu = {
+                """
+                Elpriser
+                ========
+                1. Inmatning
+                2. Min, Max och Medel
+                3. Sortera
+                4. Bästa Laddningstid (4h)
+                5. Visualisering
+                e. Avsluta
+                """};
+        for (String s : menu) {
+            System.out.println(s);
+        }
+
+    }
+
+    private static void inmatning(Scanner sc) {
+       //Skriver in mina värden här"/n
         for (int i = 0; i < 24; i++) {
-            System.out.print("Ange elpris för timme " + i + "-" + (i + 1) + "- ");
-            double pris = scanner.nextDouble();
-            priser.add(pris);
-        }
-    }
-
-    private static void minMaxMedel() {
-        if (priser.isEmpty()) {
-            System.out.println("Inga priser inmatade.");
-            return;
-        }
-
-        double min = Collections.min(priser);
-        double max = Collections.max(priser);
-        double medel = priser.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
-
-        int minIndex = priser.indexOf(min);
-        int maxIndex = priser.indexOf(max);
-
-        System.out.println("Lägsta pris: " + String.format("%02d-%02d", minIndex, 3) + ", " + min + " öre/kWh");
-        System.out.println("Högsta pris: " + String.format("%02d-%02d", maxIndex, 1) + ", " + max + " öre/kWh");
-        System.out.println("Medelpris: " + String.format("%.2f", medel) + " öre/kWh");
-    }
-
-    private static void sortera() {
-        if (priser.isEmpty()) {
-            System.out.println("Inga priser inmatade.");
-            return;
-        }
-
-        ArrayList<Double> sorteradePriser = new ArrayList<>(priser);
-        Collections.sort(sorteradePriser, Collections.reverseOrder());
-
-        for (double pris : sorteradePriser) {
-            int index = priser.indexOf(pris);
-            System.out.println(String.format("%02d-%02d %d öre", index, index + 1, (int) pris));
-        }
-    }
-
-    private static void bastaLaddningstid() {
-        if (priser.size() < 4) {
-            System.out.println("Minst 4 priser krävs för att beräkna bästa laddningstid.");
-            return;
-        }
-
-        double minSum = Double.MAX_VALUE;
-        int startIndex = 0;
-
-        for (int i = 0; i <= priser.size() - 4; i++) {
-            double sum = 0;
-            for (int j = i; j < i + 4; j++) {
-                sum += priser.get(j);
+            if (i == 23) {
+                System.out.printf("Ange priset för timme %02d-%02d: \n", 23, 24);
+            } else {
+                System.out.printf("Ange priset för timme %02d-%02d: \n", i, i + 1);
             }
-            if (sum < minSum) {
-                minSum = sum;
-                startIndex = i;
-            }
-        }
 
-        double medelPris = minSum / 4;
-        System.out.println("Bästa laddningstid är från timme " + startIndex + " till " + (startIndex + 3) + " med en total kostnad av " + minSum + " öre och ett medelpris av " + medelPris + " öre.");
+            priser[i] = Integer.parseInt(sc.nextLine());
+
+        }
+        System.out.println("Inmatning Klar\n");
+
     }
 
-    private static void visualisering() {
-        if (priser.isEmpty()) {
-            System.out.println("Inga priser inmatade.");
-            return;
+    private static void calcMinMaxAvg(int[] priser) {
+        int min = priser[0];
+        int max = priser[0];
+        int sum = 0;
+        int minHour = 0;
+        int maxHour = 0;
+
+
+        for (int i = 0; i < 24; i++) {
+            sum += priser[i];
+
+            if (priser[i] < min) {
+                min = priser[i];
+                minHour = i;
+            }
+
+            if (priser[i] > max) {
+                max = priser[i];
+                maxHour = i;
+            }
+
         }
+        double medel = (double) sum / priser.length;
 
-        final int width = 76;
-        double maxPris = Collections.max(priser);
-        double minPris = Collections.min(priser);
-        double skala = width / (maxPris - minPris);
+        System.out.printf("Lägsta pris: %02d-%02d, %d öre/kWh\n"
+                        + "Högsta pris: %02d-%02d, %d öre/kWh\n"
+                        + "Medelpris: %.2f öre/kWh\n",
+                minHour, minHour + 1, min,
+                maxHour, maxHour + 1, max,
+                medel);
 
-        int antalTimmar = 24;
-        double stepSize = (maxPris - minPris) / antalTimmar;
 
-        for (int y = 0; y <= antalTimmar; y++) {
-            double currentLevel = maxPris - y * stepSize;
-            System.out.printf("%2d | ", Math.round(currentLevel));
+    }
 
-            for (int i = 0; i < priser.size(); i++) {
-                double pris = priser.get(i);
-                if (pris >= currentLevel) {
-                    System.out.print("X ");
-                } else {
-                    System.out.print("  ");
+
+    private static void Sortera() {
+        String[] tider = new String[24];
+        for (int i = 0; i < 24; i++) {
+            tider[i] = String.format("%02d-%02d", i, (i + 1));
+        }
+        int[] sorterbaraPriser = Arrays.copyOf(priser, priser.length);
+
+        for (int i = 0; i < sorterbaraPriser.length; i++) {
+            for (int j = 0; j < sorterbaraPriser.length - 1 - i; j++) {
+                if (sorterbaraPriser[j] < sorterbaraPriser[j + 1]) {
+                    int tempPrice = sorterbaraPriser[j];
+                    sorterbaraPriser[j] = sorterbaraPriser[j + 1];
+                    sorterbaraPriser[j + 1] = tempPrice;
+
+                    String tempTime = tider[j];
+                    tider[j] = tider[j + 1];
+                    tider[j + 1] = tempTime;
                 }
             }
-            System.out.println(" ");
+
         }
 
-        System.out.print("   |");
-        for (int i = 0; i < 76; i++) {
-            System.out.print("-");
+        for (int i = 0; i < sorterbaraPriser.length; i++) {
+            System.out.print(tider[i] + " " + sorterbaraPriser[i] + " öre\n");
         }
-        System.out.println();
-        System.out.print("   |");
+    }
+
+    private static void BestCharge() {
+        String[] tider = new String[24];
         for (int i = 0; i < 24; i++) {
-            System.out.print(String.format(" %02d", i));
+            tider[i] = String.format("%02d", i);
         }
-        System.out.println();
+
+        double minSum = Float.MAX_VALUE;
+        int bestStartIndex = 0;
+
+        for (int i = 0; i <= 20; i++) {
+            double sum = priser[i] + priser[i + 1] + priser[i + 2] + priser[i + 3];
+
+            if (sum < minSum) {
+                minSum = sum;
+                bestStartIndex = i;
+            }
+
+        }
+
+        double avg = minSum / 4;
+
+        String startTid = tider[bestStartIndex];
+
+        System.out.print("Påbörja laddning klockan " + startTid + "\n");
+        System.out.printf("Medelpris 4h: %.1f öre/kWh\n", avg);
+
     }
 }
