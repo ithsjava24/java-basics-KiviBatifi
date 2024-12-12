@@ -9,7 +9,6 @@ public class App {
     private static int[] priser = new int[24];
 
     public static void main(String[] args) {
-        Locale.setDefault(Locale.of("SE", "sv"));
         Scanner sc = new Scanner(System.in);
 
 
