@@ -1,10 +1,6 @@
 package org.example;
-
-
 import java.util.Scanner;
 import java.util.Arrays;
-
-
 
 public class App {
     private static int[] priser = new int[24];
