@@ -78,7 +78,6 @@ public class App {
         }
 
     }
-
     private static void inmatning(Scanner sc) {
         //System.out.println("Skriv in dina värden här\n");
         for (int i = 0; i < 24; i++) {
@@ -125,7 +124,6 @@ public class App {
                 minHour, minHour + 1, min,
                 maxHour, maxHour + 1, max,
                 medel);
-
 
     }
 
