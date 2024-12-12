@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Arrays;
 
@@ -7,7 +8,10 @@ import java.util.Arrays;
 public class App {
     private static int[] priser = new int[24];
 
+
+
     public static void main(String[] args) {
+        Locale.setDefault(Locale.of("SE", "sv"));
         Scanner sc = new Scanner(System.in);
 
 
