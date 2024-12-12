@@ -1,12 +1,18 @@
 package org.example;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.Set;
+
 
 public class App {
     private static int[] priser = new int[24];
     //int[] priser = new int[24];
 
     public static void main(String[] args) {
+        Locale.setDefault(Locale.of("SE", "sv"));
         Scanner sc = new Scanner(System.in);
 
 
@@ -78,7 +84,7 @@ public class App {
     }
 
     private static void inmatning(Scanner sc) {
-       //Skriver in mina värden här"/n
+        //System.out.println("Skriv in dina värden här\n");
         for (int i = 0; i < 24; i++) {
             if (i == 23) {
                 System.out.printf("Ange priset för timme %02d-%02d: \n", 23, 24);
@@ -182,4 +188,6 @@ public class App {
         System.out.printf("Medelpris 4h: %.1f öre/kWh\n", avg);
 
     }
+
+
 }
